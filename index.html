@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VanLife Recipe Scroll</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #recipe-container {
+            width: 80%;
+            max-width: 400px;
+            height: 300px;
+            display: flex;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            border: 2px solid #444;
+            border-radius: 15px;
+            background: #252525;
+        }
+
+        .step {
+            min-width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .status {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .controls {
+            margin-top: 30px;
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #4a5d23;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="recipe-container">
+        <div class="step">
+            <div class="icon">🥩 + 🍄</div>
+            <p>KROK 1: Wrzuć mięso i grzyby na patelnię.</p>
+        </div>
+        <div class="step">
+            <div class="icon">🔥 + 🥘</div>
+            <p>KROK 2: Smaż na małym ogniu przez 5 minut.</p>
+        </div>
+        <div class="step">
+            <div class="icon">🌿 + 🧂</div>
+            <p>KROK 3: Dopraw ziołami i solą do smaku.</p>
+        </div>
+        <div class="step">
+            <div class="icon">🍲</div>
+            <p>GOTOWE! Regeneruje: ❤️❤️❤️</p>
+        </div>
+    </div>
+
+    <div class="status" id="sensor-status">Status sensora: Inicjalizacja...</div>
+
+    <div class="controls">
+        <button onclick="scrollRecipes()">Symuluj machnięcie (Next)</button>
+    </div>
+
+    <script>
+        const container = document.getElementById('recipe-container');
+        const statusDisplay = document.getElementById('sensor-status');
+        let currentStep = 0;
+        const totalSteps = 4;
+
+        function scrollRecipes() {
+            currentStep = (currentStep + 1) % totalSteps;
+            container.scrollTo({
+                left: container.offsetWidth * currentStep,
+                behavior: 'smooth'
+            });
+        }
+
+        // Implementacja Proximity Sensor API
+        if ('ProximitySensor' in window) {
+            try {
+                // Interwał odczytu 10Hz
+                const sensor = new ProximitySensor({ frequency: 10 });
+                
+                sensor.addEventListener('reading', () => {
+                    // sensor.distance to zazwyczaj wartość binarna (blisko/daleko) 
+                    // lub konkretna odległość w cm zależnie od sprzętu
+                    if (sensor.near || (sensor.distance < 5)) {
+                        console.log("Wykryto zbliżenie!");
+                        scrollRecipes();
+                        
+                        // Dodajemy mały debouncing, żeby nie przewijało o 10 kroków naraz
+                        sensor.stop();
+                        setTimeout(() => sensor.start(), 1000);
+                    }
+                });
+
+                sensor.addEventListener('error', event => {
+                    statusDisplay.innerText = "Błąd sensora: " + event.error.name;
+                });
+
+                sensor.start();
+                statusDisplay.innerText = "Sensor aktywny! Machnij nad telefonem.";
+
+            } catch (error) {
+                statusDisplay.innerText = "Sensor nieobsługiwany przez hardware lub uprawnienia.";
+            }
+        } else {
+            statusDisplay.innerText = "Twoja przeglądarka nie wspiera ProximitySensor API.";
+        }
+    </script>
+</body>
+</html>
