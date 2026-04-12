@@ -142,7 +142,7 @@
                 if (!acc) return;
 
                 // Czułość uderzenia (zależna od telefonu, 10-15 jest ok)
-                const threshold = 12; 
+                const threshold = 2; 
 
                 if (Math.abs(acc.x) > threshold || Math.abs(acc.y) > threshold) {
                     scrollNext();
