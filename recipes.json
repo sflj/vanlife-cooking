@@ -1,0 +1,32 @@
+[
+  {
+    "id": "shakshuka",
+    "name": "Szakszuka",
+    "resultIcon": "🍳",
+    "energy": 3,
+    "difficulty": 1,
+    "prepTime": 12,
+    "tags": ["vege"],
+    "mainIngredients": [{ "icon": "🥚" }, { "icon": "🧅" }, { "icon": "🍅" }]
+  },
+  {
+    "id": "tuna-pasta",
+    "name": "Makaron Tuńczyk",
+    "resultIcon": "🍝",
+    "energy": 4,
+    "difficulty": 2,
+    "prepTime": 10,
+    "tags": ["fish"],
+    "mainIngredients": [{ "icon": "📦" }, { "icon": "🐟" }]
+  },
+  {
+    "id": "stew",
+    "name": "Gulasz Wołowy",
+    "resultIcon": "🍲",
+    "energy": 5,
+    "difficulty": 3,
+    "prepTime": 40,
+    "tags": ["meat"],
+    "mainIngredients": [{ "icon": "🥩" }, { "icon": "🥔" }, { "icon": "🥕" }]
+  }
+]
