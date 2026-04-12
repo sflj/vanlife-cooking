@@ -2,32 +2,54 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VanLife Recipe Scroll</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VanLife RPG Chef</title>
     <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --accent-color: #88a05e; /* Zelda-ish Green */
+            --text-color: #e0e0e0;
+        }
+
         body {
             margin: 0;
-            background-color: #1a1a1a;
-            color: #e0e0e0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Courier New', Courier, monospace;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
             overflow: hidden;
+            touch-action: none;
+        }
+
+        /* Ekran startowy (wymagany dla odblokowania sensorów) */
+        #overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            text-align: center;
         }
 
         #recipe-container {
-            width: 80%;
+            width: 85%;
             max-width: 400px;
-            height: 300px;
+            height: 400px;
             display: flex;
-            overflow-x: hidden;
+            overflow: hidden;
             scroll-behavior: smooth;
-            border: 2px solid #444;
-            border-radius: 15px;
-            background: #252525;
+            border: 3px solid var(--accent-color);
+            border-radius: 20px;
+            background: var(--card-bg);
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
         }
 
         .step {
@@ -37,109 +59,129 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 20px;
+            padding: 30px;
             box-sizing: border-box;
         }
 
-        .icon {
-            font-size: 80px;
+        .icon-recipe {
+            font-size: 70px;
             margin-bottom: 20px;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
         }
 
-        .status {
+        .instruction {
+            font-size: 1.2rem;
+            line-height: 1.4;
+            text-transform: uppercase;
+        }
+
+        .status-bar {
             margin-top: 20px;
-            font-size: 0.8rem;
-            color: #888;
-        }
-
-        .controls {
-            margin-top: 30px;
-            display: flex;
-            gap: 10px;
+            font-size: 0.7rem;
+            color: var(--accent-color);
+            letter-spacing: 1px;
         }
 
         button {
-            padding: 10px 20px;
-            background: #4a5d23;
+            padding: 15px 30px;
+            background: var(--accent-color);
             color: white;
             border: none;
             border-radius: 5px;
+            font-family: inherit;
+            font-weight: bold;
             cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .hint {
+            margin-top: 15px;
+            font-size: 0.8rem;
+            opacity: 0.7;
         }
     </style>
 </head>
 <body>
 
+    <div id="overlay">
+        <h1>VANLIFE CHEF</h1>
+        <p>Gotuj bez brudzenia ekranu</p>
+        <button onclick="startApp()">Zacznij Przygodę</button>
+        <p class="hint">Po wejściu przechyl telefon w prawo, aby przewinąć.</p>
+    </div>
+
     <div id="recipe-container">
         <div class="step">
-            <div class="icon">🥩 + 🍄</div>
-            <p>KROK 1: Wrzuć mięso i grzyby na patelnię.</p>
+            <div class="icon-recipe">🥩 + 🍄</div>
+            <p class="instruction">Wrzuć "Loot" na patelnię</p>
         </div>
         <div class="step">
-            <div class="icon">🔥 + 🥘</div>
-            <p>KROK 2: Smaż na małym ogniu przez 5 minut.</p>
+            <div class="icon-recipe">🔥 + ⌛</div>
+            <p class="instruction">Czekaj aż zabulgocze</p>
         </div>
         <div class="step">
-            <div class="icon">🌿 + 🧂</div>
-            <p>KROK 3: Dopraw ziołami i solą do smaku.</p>
+            <div class="icon-recipe">🌿 + 🧂</div>
+            <p class="instruction">Dodaj zioła dla bonusu do HP</p>
         </div>
         <div class="step">
-            <div class="icon">🍲</div>
-            <p>GOTOWE! Regeneruje: ❤️❤️❤️</p>
+            <div class="icon-recipe">🍲</div>
+            <p class="instruction">Dania gotowe! <br>+20 Energii</p>
         </div>
     </div>
 
-    <div class="status" id="sensor-status">Status sensora: Inicjalizacja...</div>
-
-    <div class="controls">
-        <button onclick="scrollRecipes()">Symuluj machnięcie (Next)</button>
-    </div>
+    <div class="status-bar" id="debug">System: Gotowy</div>
 
     <script>
         const container = document.getElementById('recipe-container');
-        const statusDisplay = document.getElementById('sensor-status');
+        const debug = document.getElementById('debug');
+        const overlay = document.getElementById('overlay');
         let currentStep = 0;
         const totalSteps = 4;
+        let isThrottled = false;
 
-        function scrollRecipes() {
+        function scrollNext() {
+            if (isThrottled) return;
+            
+            isThrottled = true;
             currentStep = (currentStep + 1) % totalSteps;
+            
             container.scrollTo({
                 left: container.offsetWidth * currentStep,
                 behavior: 'smooth'
             });
+
+            debug.innerText = `System: Przewinięto do kroku ${currentStep + 1}`;
+            
+            // Blokada na 1.2 sekundy, żeby nie przewijać zbyt szybko
+            setTimeout(() => { isThrottled = false; }, 1200);
         }
 
-        // Implementacja Proximity Sensor API
-        if ('ProximitySensor' in window) {
-            try {
-                // Interwał odczytu 10Hz
-                const sensor = new ProximitySensor({ frequency: 10 });
-                
-                sensor.addEventListener('reading', () => {
-                    // sensor.distance to zazwyczaj wartość binarna (blisko/daleko) 
-                    // lub konkretna odległość w cm zależnie od sprzętu
-                    if (sensor.near || (sensor.distance < 5)) {
-                        console.log("Wykryto zbliżenie!");
-                        scrollRecipes();
-                        
-                        // Dodajemy mały debouncing, żeby nie przewijało o 10 kroków naraz
-                        sensor.stop();
-                        setTimeout(() => sensor.start(), 1000);
-                    }
-                });
+        function startApp() {
+            overlay.style.display = 'none';
 
-                sensor.addEventListener('error', event => {
-                    statusDisplay.innerText = "Błąd sensora: " + event.error.name;
-                });
-
-                sensor.start();
-                statusDisplay.innerText = "Sensor aktywny! Machnij nad telefonem.";
-
-            } catch (error) {
-                statusDisplay.innerText = "Sensor nieobsługiwany przez hardware lub uprawnienia.";
+            // Prośba o dostęp do sensorów (wymagane na iOS, opcjonalne na Androidzie)
+            if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+                DeviceOrientationEvent.requestPermission()
+                    .then(permissionState => {
+                        if (permissionState === 'granted') {
+                            window.addEventListener('deviceorientation', handleOrientation);
+                        }
+                    })
+                    .catch(console.error);
+            } else {
+                // Android i starsze przeglądarki
+                window.addEventListener('deviceorientation', handleOrientation);
             }
-        } else {
-            statusDisplay.innerText = "Twoja przeglądarka nie wspiera ProximitySensor API.";
+            
+            debug.innerText = "System: Sensor Ruchu Aktywny";
+        }
+
+        function handleOrientation(event) {
+            // Gamma to przechył boczny (lewo-prawo)
+            // Jeśli przechylisz telefon w prawo o więcej niż 25 stopni
+            if (event.gamma > 25) {
+                scrollNext();
+            }
         }
     </script>
 </body>
