@@ -59,12 +59,11 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.6);
         }
 
-        /* (b) Nowy styl nagłówka - wycentrowany, bez tła */
         .card-header {
-            padding: 10px 12px;
+            padding: 12px 12px 8px 12px;
             display: flex;
-            justify-content: center; /* Centrowanie nazwy */
-            background: transparent; /* Brak ciemniejszego tła */
+            justify-content: center;
+            background: transparent;
         }
 
         .recipe-name {
@@ -75,9 +74,8 @@
             letter-spacing: 1px;
         }
 
-        /* (c) Sekcja centralna - poprawka centrowania emoji */
         .card-body {
-            padding: 10px 10px 20px 10px;
+            padding: 10px 10px 25px 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -85,33 +83,35 @@
             gap: 15px;
         }
 
+        /* (a) Usunięte line-height */
         .result-icon {
             font-size: 4rem;
-            line-height: 1; /* Kluczowe dla centrowania pionowego emoji */
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 80px; /* Stała wysokość ułatwia pozycjonowanie */
+            height: 85px; 
             filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
         }
 
         .ingredients-row {
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap; /* Pozwala zawijać ikony, jeśli jest ich dużo */
+            gap: 6px;
             font-size: 1.3rem;
             background: rgba(0,0,0,0.2);
-            padding: 6px 16px;
+            padding: 8px 16px;
             border-radius: 20px;
             border: 1px solid rgba(255,255,255,0.05);
+            max-width: 90%;
         }
 
-        .plus { font-size: 0.9rem; color: var(--text-dim); }
+        .plus { font-size: 0.8rem; color: var(--text-dim); }
 
-        /* (a) Nowy styl stopki - 3 kolumny */
         .card-footer {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr; /* Trzy równe sekcje */
+            grid-template-columns: 1fr 1.2fr 1fr; /* Środek nieco szerszy na "X min" */
             align-items: center;
             padding: 10px 12px;
             background: rgba(0,0,0,0.3);
@@ -119,17 +119,15 @@
             font-size: 0.75rem;
         }
 
+        /* (b i c) Styl czasu */
         .footer-center {
             text-align: center;
             color: var(--text-dim);
-            font-weight: bold;
+            white-space: nowrap;
         }
 
-        .footer-right {
-            text-align: right;
-        }
+        .footer-right { text-align: right; }
 
-        /* Klasy kolorystyczne */
         .card-vege { background-color: var(--type-vege); border-color: #4a5d23; }
         .card-fish { background-color: var(--type-fish); border-color: #3b5a6b; }
         .card-default { background-color: var(--type-default); border-color: #444; }
@@ -152,7 +150,7 @@
         async function fetchRecipes() {
             try {
                 const response = await fetch('recipes.json');
-                if (!response.ok) throw new Error('Nie można wczytać bazy.');
+                if (!response.ok) throw new Error('Baza nieosiągalna.');
                 const recipes = await response.json();
                 renderDeck(recipes);
             } catch (err) {
@@ -172,8 +170,17 @@
                 
                 card.className = `recipe-card ${typeClass}`;
 
-                const ingredientsHTML = recipe.mainIngredients
-                    .map(ing => `<span>${ing.icon}</span>`)
+                // (d) Łączenie składników i narzędzi w jeden ciąg ikon
+                const mainIcons = recipe.mainIngredients.map(ing => ing.icon);
+                
+                // Zakładamy, że narzędzia w JSON mają strukturę [{icon: "🍳"}, ...]
+                const toolIcons = recipe.tools ? recipe.tools.map(t => t.icon) : [];
+                
+                // Tworzymy pełną listę "craftingu"
+                const allIcons = [...mainIcons, ...toolIcons];
+                
+                const ingredientsHTML = allIcons
+                    .map(icon => `<span>${icon}</span>`)
                     .join('<span class="plus">+</span>');
 
                 card.innerHTML = `
@@ -193,7 +200,7 @@
                             <span class="diff-val">${"⭐".repeat(recipe.difficulty)}</span>
                         </div>
                         <div class="footer-center">
-                            ⏱️${recipe.prepTime}m
+                            ⏱️ ${recipe.prepTime} min
                         </div>
                         <div class="footer-right">
                             <span class="energy-val">${"❤️".repeat(recipe.energy)}</span>
