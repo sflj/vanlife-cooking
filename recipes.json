@@ -1,13 +1,20 @@
 [
   {
-    "id": "shakshuka",
+    "id": "classic-shakshuka",
     "name": "Szakszuka",
     "resultIcon": "🍳",
     "energy": 3,
     "difficulty": 1,
     "prepTime": 12,
     "tags": ["vege"],
-    "mainIngredients": [{ "icon": "🥚" }, { "icon": "🧅" }, { "icon": "🍅" }]
+    "mainIngredients": [
+      { "item": "egg", "icon": "🥚" },
+      { "item": "onion", "icon": "🧅" },
+      { "item": "tomatoes", "icon": "🍅" }
+    ],
+    "tools": [
+      { "item": "pan", "icon": "🥘" }
+    ]
   },
   {
     "id": "tuna-pasta",
@@ -17,16 +24,46 @@
     "difficulty": 2,
     "prepTime": 10,
     "tags": ["fish"],
-    "mainIngredients": [{ "icon": "📦" }, { "icon": "🐟" }]
+    "mainIngredients": [
+      { "item": "pasta", "icon": "📦" },
+      { "item": "tuna", "icon": "🐟" }
+    ],
+    "tools": [
+      { "item": "pot", "icon": "🍲" }
+    ]
   },
   {
-    "id": "stew",
+    "id": "campfire-toast",
+    "name": "Tosty z Ogniska",
+    "resultIcon": "🥪",
+    "energy": 2,
+    "difficulty": 1,
+    "prepTime": 5,
+    "tags": ["vege"],
+    "mainIngredients": [
+      { "item": "bread", "icon": "🍞" },
+      { "item": "cheese", "icon": "🧀" }
+    ],
+    "tools": [
+      { "item": "fire", "icon": "🔥" }
+    ]
+  },
+  {
+    "id": "beef-stew",
     "name": "Gulasz Wołowy",
     "resultIcon": "🍲",
     "energy": 5,
     "difficulty": 3,
-    "prepTime": 40,
+    "prepTime": 45,
     "tags": ["meat"],
-    "mainIngredients": [{ "icon": "🥩" }, { "icon": "🥔" }, { "icon": "🥕" }]
+    "mainIngredients": [
+      { "item": "beef", "icon": "🥩" },
+      { "item": "potato", "icon": "🥔" },
+      { "item": "carrot", "icon": "🥕" }
+    ],
+    "tools": [
+      { "item": "pot", "icon": "🍲" },
+      { "item": "stove", "icon": "⛽" }
+    ]
   }
 ]
