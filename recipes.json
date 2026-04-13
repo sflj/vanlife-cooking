@@ -65,5 +65,138 @@
       { "item": "pot", "icon": "🍲" },
       { "item": "stove", "icon": "⛽" }
     ]
+  },
+  {
+    "id": "chicken-skewers",
+    "name": "Szaszłyki z kurczaka",
+    "resultIcon": "🍢",
+    "energy": 4,
+    "difficulty": 2,
+    "prepTime": 20,
+    "tags": ["meat"],
+    "mainIngredients": [
+      { "item": "chicken", "icon": "🍗" },
+      { "item": "pepper", "icon": "🫑" },
+      { "item": "onion", "icon": "🧅" }
+    ],
+    "tools": [{ "item": "skewers", "icon": "🍢" }, { "item": "grill", "icon": "🔥" }]
+  },
+  {
+    "id": "vege-skewers",
+    "name": "Szaszłyki wege",
+    "resultIcon": "🍢",
+    "energy": 2,
+    "difficulty": 1,
+    "prepTime": 15,
+    "tags": ["vege"],
+    "mainIngredients": [
+      { "item": "zucchini", "icon": "🥒" },
+      { "item": "mushroom", "icon": "🍄" },
+      { "item": "pepper", "icon": "🫑" }
+    ],
+    "tools": [{ "item": "grill", "icon": "🔥" }]
+  },
+  {
+    "id": "beef-steak",
+    "name": "Stek wołowy",
+    "resultIcon": "🥩",
+    "energy": 5,
+    "difficulty": 3,
+    "prepTime": 15,
+    "tags": ["meat"],
+    "mainIngredients": [
+      { "item": "beef", "icon": "🥩" },
+      { "item": "garlic", "icon": "🧄" },
+      { "item": "butter", "icon": "🧈" }
+    ],
+    "tools": [{ "item": "pan", "icon": "🥘" }]
+  },
+  {
+    "id": "lemonade",
+    "name": "Lemoniada",
+    "resultIcon": "🍋",
+    "energy": 1,
+    "difficulty": 1,
+    "prepTime": 5,
+    "tags": ["drink", "vege"],
+    "mainIngredients": [
+      { "item": "lemon", "icon": "🍋" },
+      { "item": "water", "icon": "💧" },
+      { "item": "sugar", "icon": "🍬" }
+    ],
+    "tools": [{ "item": "bottle", "icon": "🍼" }]
+  },
+  {
+    "id": "scrambled-eggs-bacon",
+    "name": "Jajecznica na boczku",
+    "resultIcon": "🍳",
+    "energy": 4,
+    "difficulty": 1,
+    "prepTime": 8,
+    "tags": ["meat"],
+    "mainIngredients": [
+      { "item": "egg", "icon": "🥚" },
+      { "item": "bacon", "icon": "🥓" }
+    ],
+    "tools": [{ "item": "pan", "icon": "🥘" }]
+  },
+  {
+    "id": "omelette-cheese",
+    "name": "Omlet z serem",
+    "resultIcon": "🍳",
+    "energy": 3,
+    "difficulty": 2,
+    "prepTime": 10,
+    "tags": ["vege"],
+    "mainIngredients": [
+      { "item": "egg", "icon": "🥚" },
+      { "item": "cheese", "icon": "🧀" },
+      { "item": "milk", "icon": "🥛" }
+    ],
+    "tools": [{ "item": "pan", "icon": "🥘" }]
+  },
+  {
+    "id": "campfire-sausage",
+    "name": "Kiełbaska z ogniska",
+    "resultIcon": "🌭",
+    "energy": 3,
+    "difficulty": 1,
+    "prepTime": 10,
+    "tags": ["meat"],
+    "mainIngredients": [
+      { "item": "sausage", "icon": "🌭" },
+      { "item": "bread", "icon": "🍞" }
+    ],
+    "tools": [{ "item": "fire", "icon": "🔥" }]
+  },
+  {
+    "id": "fried-fish",
+    "name": "Ryba smażona",
+    "resultIcon": "🐟",
+    "energy": 4,
+    "difficulty": 2,
+    "prepTime": 15,
+    "tags": ["fish"],
+    "mainIngredients": [
+      { "item": "fish", "icon": "🐟" },
+      { "item": "flour", "icon": "🌾" },
+      { "item": "lemon", "icon": "🍋" }
+    ],
+    "tools": [{ "item": "pan", "icon": "🥘" }]
+  },
+  {
+    "id": "ham-sandwich",
+    "name": "Kanapka z szynką",
+    "resultIcon": "🥪",
+    "energy": 2,
+    "difficulty": 1,
+    "prepTime": 3,
+    "tags": ["meat"],
+    "mainIngredients": [
+      { "item": "bread", "icon": "🍞" },
+      { "item": "ham", "icon": "🥩" },
+      { "item": "lettuce", "icon": "🥬" }
+    ],
+    "tools": []
   }
 ]
