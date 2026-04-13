@@ -143,6 +143,88 @@
             color: #ffd700; 
             letter-spacing: 2px; /* Odstęp między gwiazdkami */
         }
+
+
+        .filter-panel {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px;
+            box-sizing: border-box;
+            background: #111;
+            border-bottom: 1px solid #333;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        #tool-filter {
+            width: 100%;
+            padding: 10px;
+            background: #1a1a1a;
+            border: 1px solid #444;
+            color: white;
+            font-family: 'Lato', sans-serif;
+            border-radius: 8px;
+        }
+        
+        .ingredient-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+        
+        /* Styl pojedynczego składnika-przycisku */
+        .ingredient-chip {
+            padding: 6px 12px;
+            background: #1a1a1a;
+            border: 1px solid #444;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: 0.2s;
+        }
+        
+        .ingredient-chip.active {
+            background: var(--type-vege);
+            border-color: var(--accent-gold);
+            color: white;
+        }
+        
+        .filter-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 5px;
+        }
+        
+        .toggle-btn input { display: none; }
+        .toggle-btn span {
+            padding: 8px 15px;
+            background: #1a1a1a;
+            border: 1px solid #444;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .toggle-btn input:checked + span {
+            background: var(--type-vege);
+            border-color: #4a5d23;
+        }
+        
+        #apply-filters {
+            padding: 10px 20px;
+            background: var(--accent-gold);
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: 'Lato', sans-serif;
+        }
     </style>
 </head>
 <body>
@@ -151,24 +233,102 @@
         <h1>CAMPFIRE DECK</h1>
     </header>
 
+    <div class="filter-panel">
+        <div class="filter-row">
+            <select id="tool-filter">
+                <option value="">Wszystkie narzędzia</option>
+                <option value="🥘">🥘 Patelnia</option>
+                <option value="🍲">🍲 Garnek</option>
+                <option value="🔥">🔥 Ognisko</option>
+                <option value="⛽">⛽ Kuchenka</option>
+            </select>
+        </div>
+    
+        <div id="ingredient-cloud" class="ingredient-cloud">
+            </div>
+    
+        <div class="filter-footer">
+            <label class="toggle-btn">
+                <input type="checkbox" id="vege-only">
+                <span>🌿 Vege</span>
+            </label>
+            <button id="apply-filters">Filtruj</button>
+        </div>
+    </div>
+
     <div id="recipe-list"></div>
 
     <script>
     const recipeList = document.getElementById('recipe-list');
 
+    let allRecipes = [];
+    let selectedIngredients = new Set(); // Przechowuje wybrane składniki
+    
     async function fetchRecipes() {
         try {
-            // (b) Dodanie timestampu, aby ominąć cache przeglądarki
             const cacheBuster = new Date().getTime();
             const response = await fetch(`recipes.json?t=${cacheBuster}`);
-            
             if (!response.ok) throw new Error('Baza nieosiągalna.');
-            const recipes = await response.json();
-            renderDeck(recipes);
+            allRecipes = await response.json();
+            
+            // 1. Wygeneruj chmurę składników na podstawie danych
+            generateIngredientCloud(allRecipes);
+            // 2. Wyświetl wszystko na start
+            renderDeck(allRecipes);
         } catch (err) {
             recipeList.innerHTML = `<div style="padding:20px; text-align:center;">BŁĄD: ${err.message}</div>`;
         }
     }
+
+    function generateIngredientCloud(recipes) {
+        const cloud = document.getElementById('ingredient-cloud');
+        const ingredientsMap = new Map(); // Mapa ikon do nazw
+    
+        // Wyciągnij unikalne składniki
+        recipes.forEach(r => {
+            r.mainIngredients.forEach(ing => {
+                ingredientsMap.set(ing.item, ing.icon);
+            });
+        });
+    
+        cloud.innerHTML = '';
+        ingredientsMap.forEach((icon, name) => {
+            const chip = document.createElement('div');
+            chip.className = 'ingredient-chip';
+            chip.innerHTML = `<span>${icon}</span> ${name}`;
+            chip.onclick = () => {
+                chip.classList.toggle('active');
+                if (selectedIngredients.has(name)) {
+                    selectedIngredients.delete(name);
+                } else {
+                    selectedIngredients.add(name);
+                }
+            };
+            cloud.appendChild(chip);
+        });
+    }
+    
+    document.getElementById('apply-filters').onclick = () => {
+        const selectedToolIcon = document.getElementById('tool-filter').value;
+        const vegeOnly = document.getElementById('vege-only').checked;
+    
+        const filtered = allRecipes.filter(recipe => {
+            // Filtr Narzędzia
+            const toolMatch = !selectedToolIcon || 
+                (recipe.tools && recipe.tools.some(t => t.icon === selectedToolIcon));
+    
+            // Filtr Składników (Logika AND: musi mieć wszystkie zaznaczone)
+            const recipeIngNames = recipe.mainIngredients.map(i => i.item);
+            const ingMatch = Array.from(selectedIngredients).every(name => recipeIngNames.includes(name));
+    
+            // Filtr Vege
+            const vegeMatch = !vegeOnly || recipe.tags.includes('vege');
+    
+            return toolMatch && ingMatch && vegeMatch;
+        });
+    
+        renderDeck(filtered);
+    };
 
     function renderDeck(recipes) {
         recipeList.innerHTML = '';
