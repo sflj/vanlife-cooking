@@ -9,10 +9,9 @@
             --bg-color: #0a0a0a;
             --text-main: #f0f0f0;
             --text-dim: #aaa;
-            /* Kolory typów kart */
-            --type-default: #2a2825; /* Brązowo-szary (Mięso/Inne) */
-            --type-vege: #2d3524;    /* Mszysty zielony (Vege) */
-            --type-fish: #242d35;    /* Morski błękit (Ryby) */
+            --type-default: #2a2825;
+            --type-vege: #2d3524;
+            --type-fish: #242d35;
             --accent-gold: #c5a059;
         }
 
@@ -50,7 +49,6 @@
             box-sizing: border-box;
         }
 
-        /* Styl Karty (Karcianka) */
         .recipe-card {
             border: 1px solid #444;
             border-radius: 12px;
@@ -59,47 +57,42 @@
             display: flex;
             flex-direction: column;
             box-shadow: 0 4px 15px rgba(0,0,0,0.6);
-            transition: transform 0.1s;
         }
 
-        .recipe-card:active {
-            transform: scale(0.98);
-        }
-
-        /* Paski: Nagłówek i Stopka karty */
-        .card-bar {
-            padding: 8px 12px;
-            font-size: 0.75rem;
+        /* (b) Nowy styl nagłówka - wycentrowany, bez tła */
+        .card-header {
+            padding: 10px 12px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(0,0,0,0.3);
+            justify-content: center; /* Centrowanie nazwy */
+            background: transparent; /* Brak ciemniejszego tła */
+        }
+
+        .recipe-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--accent-gold);
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        .card-header { border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .card-footer { border-top: 1px solid rgba(255,255,255,0.05); }
-
-        .recipe-name {
-            font-weight: bold;
-            color: var(--accent-gold);
-        }
-
-        /* Centralna sekcja wizualna */
+        /* (c) Sekcja centralna - poprawka centrowania emoji */
         .card-body {
-            padding: 20px 10px;
+            padding: 10px 10px 20px 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 15px;
         }
 
         .result-icon {
-            font-size: 3.5rem;
-            line-height: 1;
-            filter: drop-shadow(0 0 8px rgba(0,0,0,0.5));
+            font-size: 4rem;
+            line-height: 1; /* Kluczowe dla centrowania pionowego emoji */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 80px; /* Stała wysokość ułatwia pozycjonowanie */
+            filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
         }
 
         .ingredients-row {
@@ -115,6 +108,27 @@
 
         .plus { font-size: 0.9rem; color: var(--text-dim); }
 
+        /* (a) Nowy styl stopki - 3 kolumny */
+        .card-footer {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr; /* Trzy równe sekcje */
+            align-items: center;
+            padding: 10px 12px;
+            background: rgba(0,0,0,0.3);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.75rem;
+        }
+
+        .footer-center {
+            text-align: center;
+            color: var(--text-dim);
+            font-weight: bold;
+        }
+
+        .footer-right {
+            text-align: right;
+        }
+
         /* Klasy kolorystyczne */
         .card-vege { background-color: var(--type-vege); border-color: #4a5d23; }
         .card-fish { background-color: var(--type-fish); border-color: #3b5a6b; }
@@ -122,13 +136,6 @@
 
         .energy-val { color: #ff5f5f; letter-spacing: -2px; }
         .diff-val { color: #ffd700; }
-
-        #error-msg {
-            padding: 20px;
-            text-align: center;
-            color: #ff6b6b;
-            font-size: 0.9rem;
-        }
     </style>
 </head>
 <body>
@@ -137,50 +144,41 @@
         <h1>CAMPFIRE DECK</h1>
     </header>
 
-    <div id="recipe-list">
-        <div style="text-align:center; padding: 20px; color: var(--text-dim);">Wczytywanie zwojów...</div>
-    </div>
+    <div id="recipe-list"></div>
 
     <script>
         const recipeList = document.getElementById('recipe-list');
 
         async function fetchRecipes() {
             try {
-                // Pobieramy dane z zewnętrznego pliku
                 const response = await fetch('recipes.json');
-                
-                if (!response.ok) throw new Error('Nie można wczytać bazy przepisów.');
-                
+                if (!response.ok) throw new Error('Nie można wczytać bazy.');
                 const recipes = await response.json();
                 renderDeck(recipes);
-
             } catch (err) {
-                recipeList.innerHTML = `<div id="error-msg">BŁĄD MAGII: ${err.message}<br><small>Uruchom stronę przez serwer lokalny!</small></div>`;
+                recipeList.innerHTML = `<div style="padding:20px; text-align:center;">BŁĄD: ${err.message}</div>`;
             }
         }
 
         function renderDeck(recipes) {
-            recipeList.innerHTML = ''; // Czyścimy loader
+            recipeList.innerHTML = '';
 
             recipes.forEach(recipe => {
                 const card = document.createElement('div');
                 
-                // Ustalanie typu karty
                 let typeClass = 'card-default';
                 if (recipe.tags.includes('vege')) typeClass = 'card-vege';
                 else if (recipe.tags.includes('fish')) typeClass = 'card-fish';
                 
                 card.className = `recipe-card ${typeClass}`;
 
-                // Budowanie rzędu składników
                 const ingredientsHTML = recipe.mainIngredients
                     .map(ing => `<span>${ing.icon}</span>`)
                     .join('<span class="plus">+</span>');
 
                 card.innerHTML = `
-                    <div class="card-bar card-header">
+                    <div class="card-header">
                         <span class="recipe-name">${recipe.name}</span>
-                        <span>⏱️${recipe.prepTime}m</span>
                     </div>
                     
                     <div class="card-body">
@@ -190,9 +188,16 @@
                         </div>
                     </div>
 
-                    <div class="card-bar card-footer">
-                        <span class="diff-val">${"⭐".repeat(recipe.difficulty)}</span>
-                        <span class="energy-val">${"❤️".repeat(recipe.energy)}</span>
+                    <div class="card-footer">
+                        <div class="footer-left">
+                            <span class="diff-val">${"⭐".repeat(recipe.difficulty)}</span>
+                        </div>
+                        <div class="footer-center">
+                            ⏱️${recipe.prepTime}m
+                        </div>
+                        <div class="footer-right">
+                            <span class="energy-val">${"❤️".repeat(recipe.energy)}</span>
+                        </div>
                     </div>
                 `;
                 
@@ -200,7 +205,6 @@
             });
         }
 
-        // Start aplikacji
         fetchRecipes();
     </script>
 </body>
