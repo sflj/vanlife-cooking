@@ -231,13 +231,13 @@
 <body>
 
     <header>
-        <h1>Campfire Deck</h1>
+        <h1 id="ui-title">Campfire Deck</h1>
         <span class="filter-toggle" id="filter-btn">⚙️</span>
     </header>
 
     <div class="filter-panel" id="filter-panel">
         <div class="sort-section">
-            <button class="sort-btn active" onclick="setSort('name', this)">A-Z</button>
+            <button class="sort-btn active" id="sort-name" onclick="setSort('name', this)">A-Z</button>
             <button class="sort-btn" onclick="setSort('energy', this)">❤️</button>
             <button class="sort-btn" onclick="setSort('prepTime', this)">⏱️</button>
             <button class="sort-btn" onclick="setSort('difficulty', this)">👨‍🍳</button>
@@ -247,7 +247,7 @@
 
         <div class="filter-footer">
             <label style="cursor: pointer; font-size: 0.85rem; user-select: none;">
-                <input type="checkbox" id="vege-only"> 🌿 Tylko Vege
+                <input type="checkbox" id="vege-only"> <span id="ui-vege-label">🌿 Tylko Vege</span>
             </label>
             <button id="apply-filters">Zastosuj</button>
         </div>
@@ -256,13 +256,14 @@
     <div id="recipe-list"></div>
 
     <script>
-        const categories = {
-            "Warzywa i Owoce": ["onion", "tomatoes", "pepper", "zucchini", "mushroom", "lettuce", "garlic", "potato", "carrot", "lemon"],
-            "Białko i Mięso": ["egg", "chicken", "beef", "bacon", "sausage", "fish", "ham", "tuna"],
-            "Nabiał": ["cheese", "milk", "butter"],
-            "Inne": ["pasta", "bread", "water", "sugar", "flour", "oil"]
+        const categoriesMap = {
+            "vege_fruit": ["onion", "tomatoes", "pepper", "zucchini", "mushroom", "lettuce", "garlic", "potato", "carrot", "lemon"],
+            "proteins": ["egg", "chicken", "beef", "bacon", "sausage", "fish", "ham", "tuna"],
+            "dairy": ["cheese", "milk", "butter"],
+            "others": ["pasta", "bread", "water", "sugar", "flour", "oil"]
         };
 
+        let translations = {};
         let allRecipes = [];
         let selectedIngredients = new Set();
         let selectedToolIcon = null; 
@@ -275,6 +276,34 @@
 
         filterBtn.onclick = () => filterPanel.classList.toggle('visible');
 
+        // Funkcja tłumacząca
+        function t(key, section = 'items') {
+            return (translations[section] && translations[section][key]) ? translations[section][key] : key;
+        }
+
+        async function initApp() {
+            // 1. Wykrywanie języka i ładowanie JSON
+            const userLang = navigator.language.split('-')[0];
+            const supported = ['pl', 'en', 'de'];
+            const langToLoad = supported.includes(userLang) ? userLang : 'pl';
+
+            try {
+                const langRes = await fetch(`lang_${langToLoad}.json`);
+                translations = await langRes.json();
+            } catch (e) {
+                const fallback = await fetch(`lang_pl.json`);
+                translations = await fallback.json();
+            }
+
+            // 2. Aktualizacja UI statycznego
+            document.getElementById('ui-title').textContent = t('title', 'ui');
+            document.getElementById('ui-vege-label').textContent = t('vege_only', 'ui');
+            document.getElementById('apply-filters').textContent = t('filter_btn', 'ui');
+
+            // 3. Ładowanie przepisów
+            await fetchRecipes();
+        }
+
         async function fetchRecipes() {
             try {
                 const response = await fetch(`recipes.json?t=${new Date().getTime()}`);
@@ -282,41 +311,40 @@
                 generateFilters(allRecipes);
                 applyAndRender();
             } catch (err) {
-                recipeList.innerHTML = "Błąd połączenia z bazą zwojów.";
+                recipeList.innerHTML = "Error loading recipes.";
             }
         }
 
         function generateFilters(recipes) {
-            const toolsMap = new Map(); // Mapa icon -> name
+            const toolsData = new Map(); // icon -> name(item)
             const ingredientsMap = new Map();
 
             recipes.forEach(r => {
                 r.mainIngredients.forEach(i => ingredientsMap.set(i.item, i.icon));
                 if(r.tools) {
-                    r.tools.forEach(t => toolsMap.set(t.icon, t.item));
+                    r.tools.forEach(t => toolsData.set(t.icon, t.item));
                 }
             });
 
             accordionContainer.innerHTML = '';
 
-            // --- 1. AKORDEON SPRZĘTU (Z NAZWAMI) ---
+            // --- SPRZĘT ---
             const toolDet = document.createElement('details');
             toolDet.open = true;
             const toolSum = document.createElement('summary');
-            toolSum.textContent = "Sprzęt (Wybierz jeden)";
+            toolSum.textContent = t('tool_header', 'ui');
             toolDet.appendChild(toolSum);
 
             const toolCont = document.createElement('div');
             toolCont.className = 'category-container';
 
-            toolsMap.forEach((name, icon) => {
+            toolsData.forEach((itemName, icon) => {
                 const chip = document.createElement('div');
                 chip.className = 'ingredient-chip';
-                chip.innerHTML = `${icon} ${name}`;
+                chip.innerHTML = `${icon} ${t(itemName)}`;
                 chip.onclick = () => {
                     const isAlreadySelected = chip.classList.contains('tool-active');
                     toolCont.querySelectorAll('.ingredient-chip').forEach(c => c.classList.remove('tool-active'));
-                    
                     if (isAlreadySelected) {
                         selectedToolIcon = null;
                     } else {
@@ -329,11 +357,11 @@
             toolDet.appendChild(toolCont);
             accordionContainer.appendChild(toolDet);
 
-            // --- 2. AKORDEONY SKŁADNIKÓW ---
-            for (const [catName, items] of Object.entries(categories)) {
+            // --- SKŁADNIKI ---
+            for (const [catKey, items] of Object.entries(categoriesMap)) {
                 const det = document.createElement('details');
                 const sum = document.createElement('summary');
-                sum.textContent = catName;
+                sum.textContent = t(catKey, 'categories');
                 det.appendChild(sum);
 
                 const cont = document.createElement('div');
@@ -345,7 +373,7 @@
 
                     const chip = document.createElement('div');
                     chip.className = 'ingredient-chip';
-                    chip.innerHTML = `${icon} ${itemName}`;
+                    chip.innerHTML = `${icon} ${t(itemName)}`;
                     chip.onclick = () => {
                         chip.classList.toggle('active');
                         selectedIngredients.has(itemName) ? selectedIngredients.delete(itemName) : selectedIngredients.add(itemName);
@@ -412,7 +440,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="footer-left"><span class="diff-val">${"👨‍🍳".repeat(r.difficulty)}</span></div>
-                        <div class="footer-center">⏱️ ${r.prepTime} min</div>
+                        <div class="footer-center">⏱️ ${r.prepTime} ${t('prep_time', 'ui')}</div>
                         <div class="footer-right"><span class="energy-val">${"❤️".repeat(r.energy)}</span></div>
                     </div>
                 `;
@@ -420,7 +448,8 @@
             });
         }
 
-        fetchRecipes();
+        // Start
+        initApp();
     </script>
 </body>
 </html>
