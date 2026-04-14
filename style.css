@@ -166,6 +166,8 @@ details[open] summary::after {
 .category-container {
     padding: 10px;
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
     gap: 8px;
     border-top: 1px solid #222;
@@ -188,10 +190,8 @@ details[open] summary::after {
 }
 
 .ingredient-chip.tool-active {
-    background: var(--accent-gold);
-    color: black;
-    border-color: white;
-    font-weight: bold;
+    background: var(--type-vege);
+    border-color: var(--accent-gold);
 }
 
 .filter-footer {
