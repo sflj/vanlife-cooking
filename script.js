@@ -147,6 +147,10 @@ document.getElementById('apply-filters').onclick = () => {
     applyAndRender();
     filterPanel.classList.remove('visible');
     document.body.classList.remove('modal-open');
+    window.scrollTo({
+        top: 0,
+        behavior: 'instant'
+    });
 };
 
 function applyAndRender() {
