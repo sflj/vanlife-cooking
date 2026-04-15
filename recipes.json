@@ -56,8 +56,7 @@
       { "item": "carrot", "icon": "🥕", "amount": 1, "unit": "pcs" }
     ],
     "tools": [
-      { "item": "pot", "icon": "🍲" },
-      { "item": "stove", "icon": "⛽" }
+      { "item": "pot", "icon": "🍲" }
     ]
   },
   {
@@ -73,7 +72,7 @@
       { "item": "pepper", "icon": "🫑", "amount": 0.5, "unit": "pcs" },
       { "item": "onion", "icon": "🧅", "amount": 0.5, "unit": "pcs" }
     ],
-    "tools": [{ "item": "skewers", "icon": "🍢" }, { "item": "grill", "icon": "🔥" }]
+    "tools": [{ "item": "grill", "icon": "🔥" }]
   },
   {
     "id": "vege-skewers",
