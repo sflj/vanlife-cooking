@@ -9,6 +9,15 @@
     "reset_filters": "Zmień strategię",
     "prep_time": "min"
   },
+  "units": {
+    "pcs": "szt.",
+    "clove": "ząb.",
+    "g": "g",
+    "ml": "ml",
+    "slice": "plast.",
+    "tsp": "łyżeczka",
+    "tbsp": "łyżka"
+  },
   "items": {
     "onion": "cebula",
     "tomatoes": "pomidory",
