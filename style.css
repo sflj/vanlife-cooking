@@ -359,3 +359,74 @@ input:checked + .slider:before {
     font-size: 0.9rem;
     user-select: none;
 }
+
+/* --- MODAL SYSTEM --- */
+.modal-backdrop {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 200;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-backdrop.active {
+    display: flex;
+    opacity: 1;
+}
+
+.modal-card {
+    width: 100%;
+    max-width: 360px; /* Bardziej pionowe proporcje */
+    transform: translateY(50px);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-backdrop.active .modal-card {
+    transform: translateY(0);
+}
+
+.close-modal-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 2rem;
+    color: white;
+    cursor: pointer;
+    z-index: 210;
+    padding: 10px;
+    line-height: 1;
+}
+
+/* --- MODAL INGREDIENTS LIST --- */
+.modal-ing-container {
+    width: 85%;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.modal-ing-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.95rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding-bottom: 4px;
+}
+
+.modal-ing-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal-ing-value {
+    color: var(--accent-gold);
+    font-weight: bold;
+}
