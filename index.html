@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Campfire Deck</title>
-    
+    <meta name="theme-color" content="#d4af37">
+    <title>tinyCHEF</title>
+    <link rel="manifest" href="manifest.json">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
-        <h1 id="ui-title">Campfire Deck</h1>
+        <h1 id="ui-title"></h1>
         <span class="filter-toggle" id="filter-btn">⚙️</span>
     </header>
 
@@ -29,14 +29,14 @@
                     <input type="checkbox" id="vege-only">
                     <span class="slider"></span>
                 </div>
-                <span id="ui-vege-label">🌿 Tylko Vege</span>
+                <span id="ui-vege-label"></span>
             </label>
         </div>
 
         <div class="filter-scroll-area" id="filter-accordion-container"></div>
 
         <div class="filter-footer">
-            <button id="apply-filters">Zastosuj</button>
+            <button id="apply-filters"></button>
         </div>
     </div>
 
@@ -47,6 +47,15 @@
         <div id="modal-card-container" class="modal-card"></div>
     </div>
 
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('SW OK:', reg.scope))
+                    .catch(err => console.error('SW Błąd:', err));
+            });
+        }
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
