@@ -44,6 +44,21 @@ body.modal-open {
     height: 100vh;
 }
 
+.svg-icon {
+    width: 1.1em;
+    height: 1.1em;
+    vertical-align: -0.15em; /* Idealne wyrównanie do linii tekstu */
+    stroke: currentColor;
+    fill: none;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+/* Opcjonalnie: Specyficzny kolor dla serca */
+.icon-energy {
+    color: #ff4d4d;
+}
+
 /* --- HEADER --- */
 header {
     position: fixed;
