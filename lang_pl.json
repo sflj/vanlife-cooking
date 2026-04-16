@@ -3,7 +3,7 @@
     "title": "Campfire Deck",
     "sort_label": "Sortuj:",
     "filter_btn": "Zastosuj",
-    "vege_only": "🌿 Tylko Vege",
+    "vege_only": "Tylko Vege",
     "tool_header": "Sprzęt (Wybierz jeden)",
     "no_results": "Przeszukaliśmy knieje, ale nie znaleźliśmy nic z:",
     "reset_filters": "Zmień strategię",
@@ -19,6 +19,11 @@
     "tbsp": "łyżka"
   },
   "items": {
+    "pasta": "makaron",
+    "tuna": "tuńczyk",
+    "potato": "ziemniak",
+    "carrot": "marchewka",
+    "lemon": "cytryna",
     "onion": "cebula",
     "tomatoes": "pomidory",
     "pepper": "papryka",
