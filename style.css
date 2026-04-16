@@ -233,6 +233,7 @@ details[open] summary::after {
     flex-direction: column;
     box-shadow: 0 4px 15px rgba(0,0,0,0.6);
     height: fit-content;
+    background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.1));
 }
 
 .card-header { padding: 12px; text-align: center; }
@@ -245,9 +246,9 @@ details[open] summary::after {
     flex-wrap: wrap; 
     gap: 6px; 
     font-size: 1.6rem; 
-    background: rgba(0,0,0,0.1); 
+    /* background: rgba(0,0,0,0.1);  */
     padding: 8px 16px; 
-    border-top: 1px solid rgba(255,255,255,0.05); 
+    /* border-top: 1px solid rgba(255,255,255,0.05);  */
 }
 .plus { font-size: 0.8rem; color: var(--text-dim); }
 
@@ -256,7 +257,7 @@ details[open] summary::after {
     grid-template-columns: 1fr 1.2fr 1fr;
     align-items: center;
     padding: 10px 12px;
-    background: rgba(0,0,0,0.2);
+    background: rgba(0,0,0,0.1);
     border-top: 1px solid rgba(255,255,255,0.05);
     font-size: 0.75rem;
 }
