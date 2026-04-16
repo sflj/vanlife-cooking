@@ -1,0 +1,60 @@
+{
+  "ui": {
+    "title": "tinyCHEF",
+    "sort_label": "Sort by:",
+    "filter_btn": "Apply",
+    "vege_only": "Veggie only",
+    "tool_header": "Tools (Pick one)",
+    "no_results": "We've searched the wild, but found nothing with:",
+    "reset_filters": "Change strategy",
+    "prep_time": "min"
+  },
+  "units": {
+    "g": "g",
+    "ml": "ml",
+    "pcs": "pcs",
+    "clove": "clov.",
+    "slice": "sl.",
+    "tsp": "tsp",
+    "tbsp": "tbsp"
+  },
+  "items": {
+    "pasta": "pasta",
+    "tuna": "tuna",
+    "potato": "potato",
+    "carrot": "carrot",
+    "lemon": "lemon",
+    "onion": "onion",
+    "tomatoes": "tomatoes",
+    "pepper": "bell pepper",
+    "egg": "egg",
+    "chicken": "chicken",
+    "beef": "beef",
+    "bacon": "bacon",
+    "sausage": "sausage",
+    "fish": "fish",
+    "ham": "ham",
+    "cheese": "cheese",
+    "milk": "milk",
+    "butter": "butter",
+    "pan": "frying pan",
+    "pot": "pot",
+    "skewers": "skewers",
+    "fire": "campfire",
+    "bottle": "bottle",
+    "bread": "bread",
+    "water": "water",
+    "sugar": "sugar",
+    "flour": "flour",
+    "zucchini": "zucchini",
+    "mushroom": "mushrooms",
+    "lettuce": "lettuce",
+    "garlic": "garlic"
+  },
+  "categories": {
+    "vege_fruit": "Vegetables & Fruit",
+    "proteins": "Proteins & Meat",
+    "dairy": "Dairy",
+    "others": "Others"
+  }
+}
