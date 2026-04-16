@@ -45,12 +45,11 @@ body.modal-open {
 }
 
 .svg-icon {
-    width: 1.1em;
-    height: 1.1em;
-    vertical-align: -0.15em; /* Idealne wyrównanie do linii tekstu */
+    width: 1.6em;
+    height: 1.6em;
     stroke: currentColor;
     fill: none;
-    display: inline-block;
+    display: block;
     flex-shrink: 0;
 }
 
