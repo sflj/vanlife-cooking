@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tiny-chef-v0.1.1';
+const CACHE_NAME = 'tiny-chef-v0.1.2';
 const ASSETS_TO_CACHE = [
   'index.html',
   'style.css',
