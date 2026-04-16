@@ -242,6 +242,38 @@ function openFilterPanel() {
     document.body.classList.add('modal-open');
 }
 
+function formatAmount(amount) {
+    // Jeśli to liczba całkowita, zwróć ją po prostu
+    if (Number.isInteger(amount)) return amount;
+
+    // Pobierz część całkowitą (np. z 1.5 wyciągnij 1)
+    const whole = Math.floor(amount);
+    // Pobierz część ułamkową (np. 0.5)
+    const fraction = amount - whole;
+
+    // Mapa ułamków (klucz to wartość dziesiętna, wartość to ułamek)
+    const fractionMap = {
+        0.5: "1/2",
+        0.25: "1/4",
+        0.75: "3/4",
+        0.33: "1/3",
+        0.66: "2/3",
+        0.2: "1/5",
+        0.125: "1/8"
+    };
+
+    // Szukamy pasującego ułamka w mapie (z małym marginesem błędu dla floatów)
+    const fractionText = fractionMap[Object.keys(fractionMap).find(key => Math.abs(key - fraction) < 0.01)];
+
+    if (fractionText) {
+        // Jeśli mamy część całkowitą (np. 1 i 1/2), połącz je, w przeciwnym razie tylko ułamek
+        return whole > 0 ? `${whole} ${fractionText}` : fractionText;
+    }
+
+    // Jeśli nie ma w mapie, zwróć normalną liczbę (bezpiecznik)
+    return amount;
+}
+
 function showRecipeDetails(recipe) {
     const backdrop = document.getElementById('recipe-modal');
     const cardContainer = document.getElementById('modal-card-container');
@@ -254,7 +286,7 @@ function showRecipeDetails(recipe) {
                 ${t(ing.item, 'items')}
             </span>
             <span class="modal-ing-value">
-                ${ing.amount} ${t(ing.unit, 'units')}
+                ${formatAmount(ing.amount)} ${t(ing.unit, 'units')}
             </span>
         </div>
     `).join('');
