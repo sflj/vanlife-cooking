@@ -80,27 +80,18 @@ header h1 {
     height: calc(100dvh - var(--header-h));
     background: #111;
     border-bottom: 1px solid #333;
-    padding: 15px;
     box-sizing: border-box;
     flex-direction: column;
-    gap: 15px;
     z-index: 90;
     box-shadow: 0 10px 20px rgba(0,0,0,0.5);
 }
 
 .filter-panel.visible { display: flex; }
 
-.filters-content {
-    flex-grow: 1;      /* Zajmuje całą wolną przestrzeń */
-    overflow-y: auto;  /* Tylko ta część się przewija */
-    padding: 20px;
-    /* Płynne przewijanie na iOS */
-    -webkit-overflow-scrolling: touch; 
-}
-
 .sort-section {
     padding: 15px;
     display: flex;
+    justify-content: center;
     gap: 8px;
     border-bottom: 1px solid #333;
     flex-shrink: 0; /* Nie pozwala się zgniatać */
@@ -121,28 +112,16 @@ header h1 {
     background: #333;
 }
 
-/* .filter-scroll-area {
-    flex: 1; 
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding-right: 5px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-} */
-
 .filter-scroll-area {
     flex-grow: 1;      /* Zajmuje całą dostępną przestrzeń */
     overflow-y: auto;  /* Tylko tu pojawia się pasek przewijania */
-    padding: 10px 15px;
     -webkit-overflow-scrolling: touch; /* Gładki scroll na iOS */
 }
 
 details {
     width: 100%;
     background: #161616;
-    border-radius: 8px;
-    border: 1px solid #222;
+    border-bottom: 1px solid #222;
 }
 
 /* Ukrywamy domyślny trójkącik w różnych przeglądarkach */
@@ -391,7 +370,7 @@ input:checked + .slider:before {
 }
 
 /* Poprawka dla labela vege w footerze panelu */
-.filter-footer label {
+label.vege-toggle {
     display: flex;
     align-items: center;
     cursor: pointer;
