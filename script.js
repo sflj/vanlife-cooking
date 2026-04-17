@@ -331,8 +331,7 @@ function showRecipeDetails(recipe) {
                 <div class="recipe-card ${typeClass} card-face card-back">
                     <div class="card-header"><span class="recipe-name" style="font-size: 1.3rem;">${recipe.name}</span></div>
                     <div class="card-body">
-                        <div style="font-size: 4rem; margin-bottom: 20px;">📜</div>
-                        <div style="color: var(--accent-gold); font-weight: bold;">
+                        <div style="color: var(--accent-gold); font-weight: bold; text-align: center;">
                             ✨ +${10 * recipe.energy} do poczucia sytości
                         </div>
                     </div>
