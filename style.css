@@ -261,14 +261,14 @@ details[open] summary .svg-icon {
     font-size: 0.75rem;
 }
 
-.footer-center { text-align: center; color: var(--text-dim); font-weight: bold; }
-.footer-right { text-align: right; }
+.footer-center { display: flex; justify-content: center; align-items: center; font-size: 0.5rem; color: var(--text-dim); font-weight: bold; }
+.footer-center .svg-icon { margin-right: 4px; font-size: 0.5rem; }
 .card-vege { background-color: var(--type-vege); border-color: #4a5d23; }
 .card-fish { background-color: var(--type-fish); border-color: #3b5a6b; }
 .card-default { background-color: var(--type-default); border-color: #444; }
-.energy-val, .diff-val { letter-spacing: 2px; }
-.energy-val { color: #ff5f5f; }
-.diff-val { color: #ffd700; }
+.energy-val, .diff-val { display: flex; align-items: center; gap: 2px; font-size: 0.5rem; }
+.energy-val { justify-content: flex-end; color: #ff5f5f; }
+.diff-val { justify-content: flex-start; color: #ffd700; font-size: 0.6rem; }
 
 /* Scena - określa perspektywę */
 .card-scene {
