@@ -204,9 +204,9 @@ function renderDeck(recipes) {
                 <div class="ingredients-row">${icons.map(i => `<span>${i}</span>`).join('<span class="plus">+</span>')}</div>
             </div>
             <div class="card-footer">
-                <div class="footer-left"><span class="diff-val">${"👨‍🍳".repeat(r.difficulty)}</span></div>
-                <div class="footer-center">⏱️ ${r.prepTime} ${t('prep_time', 'ui')}</div>
-                <div class="footer-right"><span class="energy-val">${"❤️".repeat(r.energy)}</span></div>
+                <div class="footer-left"><span class="diff-val">${getIcon('hat').repeat(r.difficulty)}</span></div>
+                <div class="footer-center">${getIcon('time')}${r.prepTime} ${t('prep_time', 'ui')}</div>
+                <div class="footer-right"><span class="energy-val">${getIcon('energy').repeat(r.energy)}</span></div>
             </div>
         `;
         recipeList.appendChild(card);
