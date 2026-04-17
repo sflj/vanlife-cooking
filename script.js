@@ -84,7 +84,7 @@ function generateFilters(recipes) {
     const toolDet = document.createElement('details');
     toolDet.open = true;
     const toolSum = document.createElement('summary');
-    toolSum.textContent = t('tool_header', 'ui') + getIcon('chevron');
+    toolSum.innerHTML = t('tool_header', 'ui') + getIcon('chevron');
     toolDet.appendChild(toolSum);
 
     const toolCont = document.createElement('div');
