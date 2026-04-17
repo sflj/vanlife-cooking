@@ -282,6 +282,8 @@ details[open] summary .svg-icon {
     justify-content: center;
     align-items: center;
     margin: 0 auto;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 /* Kontener obrotowy */
@@ -289,14 +291,15 @@ details[open] summary .svg-icon {
     position: relative;
     width: 100%;
     height: 100%; /* Teraz wypełni rodzica */
-    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    /* transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); */
     transform-style: preserve-3d;
+    will-change: transform;
 }
 
 /* Klasa wyzwalająca obrót (dodamy ją w JS) */
-.card-inner.is-flipped {
+/* .card-inner.is-flipped {
     transform: rotateY(180deg);
-}
+} */
 
 /* Wspólne style dla obu stron */
 .card-face {
@@ -309,13 +312,14 @@ details[open] summary .svg-icon {
     -webkit-backface-visibility: hidden;
     margin: 0 !important;
     border: 2px solid var(--accent-gold);
+    cursor: pointer;
 }
 
 /* Strona tylna - startuje obrócona o 180 stopni */
 .card-back {
     transform: rotateY(180deg);
-    display: flex;
-    flex-direction: column;
+    /* display: flex;
+    flex-direction: column; */
 }
 
 /* Poprawka dla Modala: upewnij się, że backdrop nie ucina 3D */
