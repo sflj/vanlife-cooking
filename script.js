@@ -113,7 +113,7 @@ function generateFilters(recipes) {
     for (const [catKey, items] of Object.entries(categoriesMap)) {
         const det = document.createElement('details');
         const sum = document.createElement('summary');
-        sum.textContent = t(catKey, 'categories');
+        sum.innerHTML = t(catKey, 'categories') + getIcon('chevron');
         det.appendChild(sum);
 
         const cont = document.createElement('div');
