@@ -349,15 +349,22 @@ function showRecipeDetails(recipe) {
     // 3. Obsługa obracania (Logic)
     const cardInner = document.getElementById('recipe-card-inner');
     let touchStartX = 0;
+    let currentRotation = 0; // Śledzimy stopnie
 
-    // Kliknięcie (dla desktopu)
-    cardInner.onclick = (e) => {
-        // Nie obracaj, jeśli kliknięto w coś interaktywnego (jeśli dodasz buttony w środku karty)
-        if (e.target.closest('button, a')) return;
-        cardInner.classList.toggle('is-flipped');
+    const flipCard = (direction) => {
+        if (direction === 'left') currentRotation -= 180;
+        else currentRotation += 180;
+        
+        cardInner.style.transform = `rotateY(${currentRotation}deg)`;
     };
 
-    // Swipe (dla mobile)
+    // Kliknięcie (zawsze w jedną stronę)
+    cardInner.onclick = (e) => {
+        if (e.target.closest('button, a')) return;
+        flipCard('left'); 
+    };
+
+    // Swipe
     cardInner.ontouchstart = (e) => {
         touchStartX = e.touches[0].clientX;
     };
@@ -366,9 +373,9 @@ function showRecipeDetails(recipe) {
         const touchEndX = e.changedTouches[0].clientX;
         const diff = touchStartX - touchEndX;
         
-        // Jeśli przesunięcie w poziomie jest większe niż 50px - obróć
         if (Math.abs(diff) > 50) {
-            cardInner.classList.toggle('is-flipped');
+            // Jeśli diff > 0, to swipe w lewo, jeśli < 0 to w prawo
+            flipCard(diff > 0 ? 'left' : 'right');
         }
     };
 
