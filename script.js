@@ -313,7 +313,7 @@ function showRecipeDetails(recipe) {
             <div class="card-inner" id="recipe-card-inner">
                 
                 <div class="recipe-card ${typeClass} card-face card-front">
-                    <div class="card-header"><span class="recipe-name" style="font-size: 1.3rem;">${recipe.name}</span></div>
+                    <div class="card-header"><span class="recipe-name">${recipe.name}</span></div>
                     <div class="card-body">
                         <div class="result-icon" style="font-size: 5rem; height: 120px;">${recipe.resultIcon}</div>
                         <div class="modal-ing-container">
@@ -321,15 +321,15 @@ function showRecipeDetails(recipe) {
                             ${toolsHtml}
                         </div>
                     </div>
-                    <div class="card-footer" style="padding: 15px 12px;">
-                        <div class="footer-left"><span class="diff-val">${"👨‍🍳".repeat(recipe.difficulty)}</span></div>
-                        <div class="footer-center">⏱️ ${recipe.prepTime} ${t('prep_time', 'ui')}</div>
-                        <div class="footer-right"><span class="energy-val">${"❤️".repeat(recipe.energy)}</span></div>
+                    <div class="card-footer">
+                        <div class="footer-left"><span class="diff-val">${getIcon('chef').repeat(recipe.difficulty)}</span></div>
+                        <div class="footer-center">${getIcon('time')}${recipe.prepTime} ${t('prep_time', 'ui')}</div>
+                        <div class="footer-right"><span class="energy-val">${getIcon('energy').repeat(recipe.energy)}</span></div>
                     </div>
                 </div>
 
                 <div class="recipe-card ${typeClass} card-face card-back">
-                    <div class="card-header"><span class="recipe-name" style="font-size: 1.3rem;">${recipe.name}</span></div>
+                    <div class="card-header"><span class="recipe-name">${recipe.name}</span></div>
                     <div class="card-body">
                         <div style="color: var(--accent-gold); font-weight: bold; text-align: center;">
                             ✨ +${10 * recipe.energy} do poczucia sytości
