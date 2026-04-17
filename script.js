@@ -381,8 +381,13 @@ function showRecipeDetails(recipe) {
     let isDragging = false;
     
     // Funkcja pomocnicza do ustawiania rotacji bez transition
+    // const setRotation = (deg, useTransition = false) => {
+    //     cardInner.style.transition = useTransition ? "transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)" : "none";
+    //     cardInner.style.transform = `rotateY(${deg}deg)`;
+    // };
     const setRotation = (deg, useTransition = false) => {
-        cardInner.style.transition = useTransition ? "transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)" : "none";
+        // Używamy cubic-bezier dla "miękkiego" lądowania karty
+        cardInner.style.transition = useTransition ? "transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)" : "none";
         cardInner.style.transform = `rotateY(${deg}deg)`;
     };
     
