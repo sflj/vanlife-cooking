@@ -82,10 +82,10 @@ header h1 {
 .filter-toggle {
     position: absolute;
     right: 15px;
-    font-size: 1.2rem;
     cursor: pointer;
     user-select: none;
     padding: 5px;
+    color: #bbb;
 }
 
 /* --- FILTER PANEL --- */
@@ -111,14 +111,13 @@ header h1 {
     display: flex;
     justify-content: center;
     gap: 8px;
-    border-bottom: 1px solid #333;
-    flex-shrink: 0; /* Nie pozwala się zgniatać */
+    flex-shrink: 0;
 }
 
 .sort-btn {
     background: #222;
-    border: 1px solid #444;
-    color: white;
+    border: none;
+    color: #bbb;
     padding: 6px 12px;
     border-radius: 5px;
     cursor: pointer;
@@ -126,8 +125,8 @@ header h1 {
 }
 
 .sort-btn.active {
-    border-color: var(--accent-gold);
-    background: #333;
+    background: var(--accent-gold);
+    color: #111;
 }
 
 .filter-scroll-area {
@@ -191,10 +190,12 @@ details[open] summary .svg-icon {
 
 .ingredient-chip.active {
     background: var(--accent-gold);
+    color: #111;
 }
 
 .ingredient-chip.tool-active {
     background: var(--accent-gold);
+    color: #111;
 }
 
 .filter-footer {
@@ -275,7 +276,7 @@ details[open] summary .svg-icon {
     border-radius: 8px;
     font-weight: bold;
     cursor: pointer;
-    color: #000;
+    color: #111;
 }
 
 /* --- EMPTY STATE --- */
@@ -355,7 +356,7 @@ details[open] summary .svg-icon {
 }
 
 input:checked + .slider {
-    background-color: #4a5d23; /* Zielony Vege */
+    background-color: var(--accent-gold);
 }
 
 input:checked + .slider:before {
