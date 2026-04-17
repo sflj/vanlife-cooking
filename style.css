@@ -261,7 +261,7 @@ details[open] summary .svg-icon {
     font-size: 0.75rem;
 }
 
-.footer-center { display: flex; justify-content: center; align-items: center; font-size: 0.5rem; color: var(--text-dim); font-weight: bold; }
+.footer-center { display: flex; justify-content: center; align-items: center; color: var(--text-dim); font-weight: bold; }
 .footer-center .svg-icon { margin-right: 4px; font-size: 0.5rem; }
 .card-vege { background-color: var(--type-vege); border-color: #4a5d23; }
 .card-fish { background-color: var(--type-fish); border-color: #3b5a6b; }
