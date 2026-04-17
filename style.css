@@ -269,9 +269,57 @@ details[open] summary .svg-icon {
 .energy-val { color: #ff5f5f; }
 .diff-val { color: #ffd700; }
 
-.recipe-card-standalone {
-    box-shadow: 0 0 30px rgba(0,0,0,0.8);
+/* Scena - określa perspektywę */
+.card-scene {
+    perspective: 1200px;
+    width: 90%;
+    max-width: 400px; /* Dopasuj do swojej szerokości karty */
+    height: auto;
+    min-height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Kontener obrotowy */
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+/* Klasa wyzwalająca obrót (dodamy ją w JS) */
+.card-inner.is-flipped {
+    transform: rotateY(180deg);
+}
+
+/* Wspólne style dla obu stron */
+.card-face {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    margin: 0 !important; /* Resetujemy marginesy, bo scena nimi zarządza */
     border: 2px solid var(--accent-gold);
+}
+
+/* Strona tylna - startuje obrócona o 180 stopni */
+.card-back {
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Poprawka dla Modala: upewnij się, że backdrop nie ucina 3D */
+.modal-card {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
 }
 
 #apply-filters {
