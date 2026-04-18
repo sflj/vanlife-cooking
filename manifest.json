@@ -4,7 +4,7 @@
   "description": "Proste przepisy na każdą okazję.",
   "start_url": "index.html",
   "display": "fullscreen",
-  "orientation": "portrait"
+  "orientation": "portrait",
   "background_color": "#1a1a1a",
   "theme_color": "#1a1a1a",
   "icons": [
