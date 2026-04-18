@@ -20,16 +20,10 @@ const accordionContainer = document.getElementById('filter-accordion-container')
 // Otwieranie/Zamykanie przez guzik w headerze
 filterBtn.onclick = () => {
     const isVisible = filterPanel.classList.toggle('active');
-    if (window.innerWidth < 1024) {
-        document.body.classList.toggle('modal-open', isVisible);
-    }
 };
 
 closeFilterBtn.onclick = () => {
     document.getElementById('filter-panel').classList.remove('active');
-    if (window.innerWidth < 1024) {
-        document.body.classList.toggle('modal-open', false);
-    }
 };
 
 // Funkcja tłumacząca
@@ -161,7 +155,6 @@ document.getElementById('apply-filters').onclick = () => {
     applyAndRender();
     if (window.innerWidth < 1024) {
         filterPanel.classList.remove('active');
-        document.body.classList.remove('modal-open');
     }
     window.scrollTo({
         top: 0,
@@ -255,7 +248,6 @@ function showEmptyState() {
 // Funkcja wywoływana z Empty State
 function openFilterPanel() {
     filterPanel.classList.add('visible');
-    document.body.classList.add('modal-open');
 }
 
 function formatAmount(amount) {
@@ -452,66 +444,8 @@ function showRecipeDetails(recipe) {
     backdrop.style.display = 'flex';
     setTimeout(() => {
         backdrop.classList.add('active');
-        document.body.classList.add('modal-open');
     }, 10);
 }
-
-// function showRecipeDetails(recipe) {
-//     const backdrop = document.getElementById('recipe-modal');
-//     const cardContainer = document.getElementById('modal-card-container');
-    
-//     // Generowanie wierszy składników (Wizja punkt E)
-//     const ingredientsHtml = recipe.mainIngredients.map(ing => `
-//         <div class="modal-ing-row">
-//             <span class="modal-ing-name">
-//                 <span>${ing.icon}</span> 
-//                 ${t(ing.item, 'items')}
-//             </span>
-//             <span class="modal-ing-value">
-//                 ${formatAmount(ing.amount)} ${t(ing.unit, 'units')}
-//             </span>
-//         </div>
-//     `).join('');
-
-//     const toolsHtml = (recipe.tools && recipe.tools.length > 0) ? 
-//             recipe.tools.map(tool => `
-//                 <div class="modal-ing-row">
-//                     <span class="modal-ing-name"><span>${tool.icon}</span> ${t(tool.item, 'items')}</span>
-//                     <span class="modal-ing-value">1 ${t('pcs', 'units')}</span>
-//                 </div>
-//             `).join('') : '';
-
-//     // Określenie klasy koloru (jak na liście)
-//     let typeClass = 'card-default';
-//     if (recipe.tags.includes('vege')) typeClass = 'card-vege';
-//     else if (recipe.tags.includes('fish')) typeClass = 'card-fish';
-
-//     // Budowanie karty (Wizja punkt B i E)
-//     cardContainer.innerHTML = `
-//         <div class="recipe-card ${typeClass} recipe-card-standalone">
-//             <div class="card-header"><span class="recipe-name" style="font-size: 1.3rem;">${recipe.name}</span></div>
-//             <div class="card-body">
-//                 <div class="result-icon" style="font-size: 5rem; height: 120px;">${recipe.resultIcon}</div>
-//                 <div class="modal-ing-container">
-//                     ${ingredientsHtml}
-//                     ${toolsHtml}
-//                 </div>
-//             </div>
-//             <div class="card-footer" style="padding: 15px 12px;">
-//                 <div class="footer-left"><span class="diff-val">${"👨‍🍳".repeat(recipe.difficulty)}</span></div>
-//                 <div class="footer-center">⏱️ ${recipe.prepTime} ${t('prep_time', 'ui')}</div>
-//                 <div class="footer-right"><span class="energy-val">${"❤️".repeat(recipe.energy)}</span></div>
-//             </div>
-//         </div>
-//     `;
-
-//     // Wyświetlanie z animacją
-//     backdrop.style.display = 'flex';
-//     setTimeout(() => {
-//         backdrop.classList.add('active');
-//         document.body.classList.add('modal-open');
-//     }, 10);
-// }
 
 // Obsługa zamykania
 function closeModal() {
@@ -519,9 +453,6 @@ function closeModal() {
     backdrop.classList.remove('active');
     setTimeout(() => {
         backdrop.style.display = 'none';
-        if (!filterPanel.classList.contains('visible')) {
-            document.body.classList.remove('modal-open');
-        }
     }, 300); // Czas trwania animacji CSS
 }
 
