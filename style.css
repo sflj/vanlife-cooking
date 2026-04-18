@@ -39,11 +39,6 @@ body {
 }
 
 /* --- BODY LOCK --- */
-/* body.modal-open {
-    overflow: hidden;
-    height: 100vh;
-    height: 100dvh;
-} */
 
 .svg-icon {
     width: 1.6em;
@@ -103,22 +98,6 @@ main {
 }
 
 /* --- FILTER PANEL --- */
-/* .filter-panel {
-    display: none;
-    position: fixed;
-    top: var(--header-h);
-    width: 100%;
-    height: calc(100vh - var(--header-h));
-    height: calc(100dvh - var(--header-h));
-    background: #111;
-    border-bottom: 1px solid #333;
-    box-sizing: border-box;
-    flex-direction: column;
-    z-index: 90;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-}
-
-.filter-panel.visible { display: flex; } */
 
 .filter-panel {
     position: fixed;
@@ -260,7 +239,6 @@ details[open] summary .svg-icon {
 /* --- RECIPE GRID --- */
 #recipe-list {
     width: 100%;
-    max-width: 1200px;
     padding: 20px 15px 40px 15px;
     box-sizing: border-box;
     display: grid;
@@ -565,7 +543,7 @@ label.vege-toggle {
         width: 360px;
         min-width: 360px;
         height: 100%;
-        border-right: 1px solid #444;
+        border-left: 1px solid #444;
         right: 0;
     }
 
