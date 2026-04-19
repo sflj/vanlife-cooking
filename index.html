@@ -59,10 +59,12 @@
         </div>
         
         <aside class="filter-panel" id="filter-panel">
-            <div class="filter-header-mobile">
+            <header>
                 <h2 id="ui-filter-title">Filtry</h2>
-                <span class="close-filter" id="close-filter-btn">&times;</span>
-            </div>
+                <span class="close-filter" id="close-filter-btn">
+                    <svg class="svg-icon"><use href="#icon-chevron"></use></svg>
+                </span>
+            </header>
             
             <div class="sort-section">
                 <button class="sort-btn active" id="sort-name" onclick="setSort('name', this)">
