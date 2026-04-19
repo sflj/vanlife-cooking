@@ -16,6 +16,7 @@ const filterPanel = document.getElementById('filter-panel');
 const closeFilterBtn = document.getElementById('close-filter-btn');
 const recipeList = document.getElementById('recipe-list');
 const accordionContainer = document.getElementById('filter-accordion-container');
+let hasUserFlippedCard = localStorage.getItem('hasUserFlipped') === 'true';
 
 // Otwieranie/Zamykanie przez guzik w headerze
 filterBtn.onclick = () => {
@@ -199,7 +200,7 @@ function renderDeck(recipes) {
         else if (r.tags.includes('fish')) typeClass = 'card-fish';
         card.className = `recipe-card ${typeClass}`;
         card.style.cursor = 'pointer'; // Kursor rączki na desktopie
-        card.onclick = () => showRecipeDetails(r);
+        card.onclick = () => peDetails(r);
 
         const icons = [...r.mainIngredients.map(i => i.icon), ...(r.tools ? r.tools.map(t => t.icon) : [])];
         
@@ -312,8 +313,16 @@ function showRecipeDetails(recipe) {
     if (recipe.tags.includes('vege')) typeClass = 'card-vege';
     else if (recipe.tags.includes('fish')) typeClass = 'card-fish';
 
+    const hintHtml = !hasUserFlippedCard ? `
+        <div id="flip-hint" class="flip-hint">
+            <div class="hint-icon">${getIcon('hand')}</div>
+            <span>${t('hint_flip', 'ui')}</span>
+        </div>
+    ` : '';
+
     // 2. Budowanie nowej struktury 3D
     cardContainer.innerHTML = `
+        ${hintHtml}
         <div class="card-scene">
             <div class="card-inner" id="recipe-card-inner">
                 
@@ -347,49 +356,22 @@ function showRecipeDetails(recipe) {
         </div>
     `;
 
-    // 3. Obsługa obracania (Logic)
-    // const cardInner = document.getElementById('recipe-card-inner');
-    // let touchStartX = 0;
-    // let currentRotation = 0; // Śledzimy stopnie
-
-    // const flipCard = (direction) => {
-    //     if (direction === 'left') currentRotation -= 180;
-    //     else currentRotation += 180;
-        
-    //     cardInner.style.transform = `rotateY(${currentRotation}deg)`;
-    // };
-
-    // // Kliknięcie (zawsze w jedną stronę)
-    // cardInner.onclick = (e) => {
-    //     if (e.target.closest('button, a')) return;
-    //     flipCard('left'); 
-    // };
-
-    // // Swipe
-    // cardInner.ontouchstart = (e) => {
-    //     touchStartX = e.touches[0].clientX;
-    // };
-
-    // cardInner.ontouchend = (e) => {
-    //     const touchEndX = e.changedTouches[0].clientX;
-    //     const diff = touchStartX - touchEndX;
-        
-    //     if (Math.abs(diff) > 50) {
-    //         // Jeśli diff > 0, to swipe w lewo, jeśli < 0 to w prawo
-    //         flipCard(diff > 0 ? 'left' : 'right');
-    //     }
-    // };
-
     const cardInner = document.getElementById('recipe-card-inner');
     let startX = 0;
     let currentRotation = 0; // Kąt, przy którym karta skończyła poprzedni ruch
     let isDragging = false;
     
-    // Funkcja pomocnicza do ustawiania rotacji bez transition
-    // const setRotation = (deg, useTransition = false) => {
-    //     cardInner.style.transition = useTransition ? "transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)" : "none";
-    //     cardInner.style.transform = `rotateY(${deg}deg)`;
-    // };
+    const handleFirstFlip = () => {
+        if (!hasUserFlippedCard) {
+            hasUserFlippedCard = true;
+            localStorage.setItem('hasUserFlipped', 'true');
+            const hintElement = document.getElementById('flip-hint');
+            if (hintElement) hintElement.remove(); // Usuwamy z DOM zamiast ukrywać
+        }
+    };
+    cardInner.addEventListener('click', handleFirstFlip);
+    cardInner.addEventListener('touchstart', handleFirstFlip, {passive: true});
+    
     const setRotation = (deg, useTransition = false) => {
         // Używamy cubic-bezier dla "miękkiego" lądowania karty
         cardInner.style.transition = useTransition ? "transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)" : "none";
