@@ -200,7 +200,7 @@ function renderDeck(recipes) {
         else if (r.tags.includes('fish')) typeClass = 'card-fish';
         card.className = `recipe-card ${typeClass}`;
         card.style.cursor = 'pointer'; // Kursor rączki na desktopie
-        card.onclick = () => peDetails(r);
+        card.onclick = () => showRecipeDetails(r);
 
         const icons = [...r.mainIngredients.map(i => i.icon), ...(r.tools ? r.tools.map(t => t.icon) : [])];
         
