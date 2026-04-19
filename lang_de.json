@@ -8,7 +8,8 @@
     "tool_header": "Ausrüstung (Wähle eins)",
     "no_results": "Wir haben die Wildnis durchsucht, aber nichts gefunden mit:",
     "reset_filters": "Strategie ändern",
-    "prep_time": "Min."
+    "prep_time": "Min.",
+    "hint_flip": "Zum Drehen klicken oder wischen."
   },
   "units": {
     "g": "g",
