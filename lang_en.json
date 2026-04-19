@@ -8,7 +8,8 @@
     "tool_header": "Tools (Pick one)",
     "no_results": "We've searched the wild, but found nothing with:",
     "reset_filters": "Change strategy",
-    "prep_time": "min"
+    "prep_time": "min",
+    "hint_flip": "Click or swipe to rotate"
   },
   "units": {
     "g": "g",
